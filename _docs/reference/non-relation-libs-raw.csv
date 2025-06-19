@@ -1,0 +1,48 @@
+name,status,url,docs,src,kind,machine,K8s,description
+charmlibs.pathops,recommended,https://pypi.org/project/charmlibs-pathops,https://canonical-charmlibs.readthedocs-hosted.com,https://github.com/canonical/charmtech-charmlibs,PyPI,y,y,Substrate agnostic file operations.
+snap,recommended,https://charmhub.io/operator-libs-linux/libraries/snap,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Install and manage packages via snapd.
+systemd,recommended,https://charmhub.io/operator-libs-linux/libraries/systemd,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,"Start, stop, and manage system services via systemd."
+apt,recommended,https://charmhub.io/operator-libs-linux/libraries/apt,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Install and manage packages via apt.
+dnf,legacy,https://charmhub.io/operator-libs-linux/libraries/dnf,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,"Install and manage packages via dnf – modern charms all run on Ubuntu, so this shouldn’t be needed."
+grub,recommended,https://charmhub.io/operator-libs-linux/libraries/grub,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Manage kernel configuration via GRUB.
+juju_systemd_notices,recommended,https://charmhub.io/operator-libs-linux/libraries/juju_systemd_notices,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Use systemd to observe and emit notices when services change state.
+passwd,recommended,https://charmhub.io/operator-libs-linux/libraries/passwd,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Manage Linux users and groups.
+sysctl,recommended,https://charmhub.io/operator-libs-linux/libraries/sysctl,,https://github.com/canonical/operator-libs-linux,Charmhub,y,,Create and configure sysctl options.
+charmed-kubeflow-chisme,team,https://pypi.org/project/charmed-kubeflow-chisme/,,https://github.com/canonical/charmed-kubeflow-chisme,PyPI,y,y,Used internally by Charmed Kubeflow team.
+hpc-libs,team,https://github.com/charmed-hpc/hpc-libs,,,git,y,y,Used internally by HPC charms.
+charm-helpers,legacy,https://pypi.org/project/charmhelpers/,https://charm-helpers.readthedocs.io/,https://github.com/juju/charm-helpers,PyPI,y,y,Pre-ops library used by reactive charms.
+cos-lib,dep,https://pypi.org/project/cosl/,,https://github.com/canonical/cos-lib,PyPI,y,y,A dependency (via PYDEPS) of popular charm libs (e.g. loki push api).
+serialized-data-interface,legacy,https://pypi.org/project/serialized-data-interface/,,https://github.com/canonical/serialized-data-interface,PyPI,y,y,Relation data validation – use the features available in ops instead.
+oci-image,legacy,https://pypi.org/project/oci-image/,,https://github.com/juju-solutions/resource-oci-image,PyPI,,y,Work with OCI image resources – repo archived in March 2024.
+data-platform-helpers,team,https://pypi.org/project/data-platform-helpers/,,https://github.com/canonical/data-platform-helpers,PyPI,y,y,Used internally by the Data Charm Engineering team.
+mongo-charms-single-kernel,team,https://pypi.org/project/mongo-charms-single-kernel/,,https://github.com/canonical/mongo-single-kernel-library,PyPI,y,y,Used internally by the Data Charm Engineering team.
+data-platform-libs,team,https://charmhub.io/data-platform-libs/libraries,,https://github.com/canonical/data-platform-libs,Charmhub,y,y,Used internally by the Data Charm Engineering team.
+awsjuju,legacy,https://pypi.org/project/awsjuju/,,https://github.com/kapilt/awsjuju,PyPI,,,Legacy library for managing AWS resources.
+charm-api,experimental,https://pypi.org/project/charm-api/,,https://github.com/canonical/charm-api,PyPI,y,y,Experimental API for writing charms.
+charm-json,legacy,https://pypi.org/project/charm-json/,,https://github.com/canonical/charm-json,PyPI,y,y,JSON typed relation data – unnecessary with ops 2.23+ due to the addition of typed relation data.
+charm-refresh-build-version,team,https://pypi.org/project/charm-refresh-build-version/,,https://github.com/canonical/charm-refresh-build-version,PyPI,y,y,Workaround for a charmcraft issue.
+charm-refresh,team,https://pypi.org/project/charm-refresh/,https://canonical-charm-refresh.readthedocs-hosted.com/latest/,https://github.com/canonical/charm-refresh,PyPI,y,y,In-place rolling refreshes of stateful charmed applications.
+charm-upgrade,legacy,https://pypi.org/project/charm-upgrade/,,https://github.com/canonical/charm-upgrade,PyPI,y,y,Alias for charm-refresh? (Repo URL redirects.)
+charmed-service-mesh-helpers,team,https://pypi.org/project/charmed-service-mesh-helpers/,,https://github.com/canonical/charmed-service-mesh-helpers/,PyPI,,y,Used internally by the Service Mesh team.
+charms.contextual_status,,https://pypi.org/project/charms.contextual-status/,,https://github.com/charmed-kubernetes/charm-lib-contextual-status,PyPI,y,y,Context manager based library for setting charm statuses.
+charms.docker,legacy,https://pypi.org/project/charms.docker/,,https://github.com/juju-solutions/charms.docker,PyPI,,,Legacy library used by the docker-layer reactive charm.
+charms.reactive,legacy,https://pypi.org/project/charms.reactive/,https://charmsreactive.readthedocs.io/en/latest/,https://github.com/canonical/charms.reactive,PyPI,y,y,Legacy library used to implement reactive charms.
+charms.reconciler,experimental,https://pypi.org/project/charms.reconciler/,,https://github.com/charmed-kubernetes/charm-lib-reconciler,PyPI,y,y,Handle all Juju events in an ops charm with a single method.
+charms.templating.jinja2,legacy,https://pypi.org/project/charms.templating.jinja2/,https://pythonhosted.org/charms.templating.jinja2/,https://github.com/juju-solutions/charms.templating.jinja2,PyPI,,,Legacy library for Jinja templating in reactive charms.
+coordinated-workers,team,https://pypi.org/project/coordinated-workers/,,https://github.com/canonical/cos-coordinated-workers,PyPI,y,y,"Abstractions for charms following the coordinator-worker pattern, used by Observability Team."
+jujubigdata,legacy,https://pypi.org/project/jujubigdata/,http://pythonhosted.org/jujubigdata/,https://github.com/juju-solutions/jujubigdata,PyPI,,,Legacy library for developing Big Data charms.
+jujuresources,legacy,https://pypi.org/project/jujuresources/,http://pythonhosted.org/jujuresources/,https://github.com/juju-solutions/jujuresources,PyPI,y,y,Legacy library for loading binary resources.
+ops_reactive_interface,,https://pypi.org/project/ops-reactive-interface/,https://github.com/canonical/ops-reactive-interface/tree/main/docs,https://github.com/juju-solutions/ops-reactive-interface,PyPI,y,y,"Helper for relation library developers, to allow an ops based relation library to interact with legacy, reactive charms."
+ops.manifest,,https://pypi.org/project/ops.manifest/,,https://github.com/canonical/ops-lib-manifest,PyPI,,y,Work with Kubernetes manifests.
+sborl,legacy,https://pypi.org/project/sborl/,,https://github.com/canonical/sborl,PyPI,y,y,Legacy library for implementing relation libraries.
+juju_topology,legacy,https://charmhub.io/observability-libs/libraries/juju_topology,,,Charmhub,y,y,Deprecated in favour of cosl.juju_topology.JujuTopology.
+kubernetes_service_patch,legacy,https://charmhub.io/observability-libs/libraries/kubernetes_service_patch,,,Charmhub,,y,Deprecated in favour of ops.Unit.set_ports.
+charm_tracing,legacy,https://charmhub.io/tempo-coordinator-k8s/libraries/charm_tracing,,,Charmhub,y,y,Consider using ops[tracing] instead.
+data_models,,https://charmhub.io/data-platform-libs/libraries/data_models,,,Charmhub,,,
+upgrade,,https://charmhub.io/data-platform-libs/libraries/upgrade,,,Charmhub,,,
+kubernetes_compute_resources_patch,,https://charmhub.io/observability-libs/libraries/kubernetes_compute_resources_patch,,,Charmhub,,,
+rollingops,,https://charmhub.io/rolling-ops/libraries/rollingops,,,Charmhub,,,
+client,,https://charmhub.io/zookeeper/libraries/client,,,Charmhub,,,
+capture_events,,https://charmhub.io/harness-extensions/libraries/capture_events,,,Charmhub,,,
+postgresql,,https://charmhub.io/postgresql-k8s/libraries/postgresql,,,Charmhub,,,
+multus,,https://charmhub.io/kubernetes-charm-libraries/libraries/multus,,,Charmhub,,,
