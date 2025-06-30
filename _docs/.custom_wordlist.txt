@@ -2,6 +2,7 @@
 autocomplete
 autocompletions
 args
+CNI
 codebase
 databag
 databags
@@ -15,14 +16,17 @@ implementers
 libs
 monorepo
 namespacing
+OCI
 posix
 reimplemented
 repo
 requirer
+stateful
 subclasses
 subdirectory
 symlink
 symlinks
+templating
 tooltip
 tooltips
 UTF
@@ -38,6 +42,8 @@ pathlib
 pathops
 ContainerPath
 
+Jinja
+Multus
 PyPI
 
 drwxr

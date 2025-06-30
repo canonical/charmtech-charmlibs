@@ -1,8 +1,6 @@
 (general-libs-listing)=
 # General libraries
 
-🚧Under construction!🚧
-
 This page lists [non-interface libraries](#charm-libs-general). The search box supports regular expressions.
 
 ```{eval-rst}
