@@ -49,7 +49,7 @@ vault_kv,,https://charmhub.io/vault-k8s/libraries/vault_kv,,,Charmhub,vault_kv,h
 kratos_registration_webhook,,https://charmhub.io/kratos/libraries/kratos_registration_webhook,,,Charmhub,,,,
 auth_proxy,,https://charmhub.io/oauth2-proxy-k8s/libraries/auth_proxy,,,Charmhub,auth_proxy,https://charmhub.io/integrations/auth_proxy,https://github.com/canonical/charm-relation-interfaces/tree/main/interfaces/auth_proxy/v0,
 forward_auth,,https://charmhub.io/oauth2-proxy-k8s/libraries/forward_auth,,,Charmhub,forward_auth,https://charmhub.io/integrations/forward_auth,https://github.com/canonical/charm-relation-interfaces/tree/main/interfaces/forward_auth/v0,
-kubernetes_manifests,,https://charmhub.io/resource-dispatcher/libraries/kubernetes_manifests,,,Charmhub,,,,
+kubernetes_manifests,,https://charmhub.io/resource-dispatcher/libraries/kubernetes_manifests,,,Charmhub,kubernetes_manifest,https://charmhub.io/integrations/kubernetes_manifest,,
 tempo_api,,https://charmhub.io/tempo-coordinator-k8s/libraries/tempo_api,,,Charmhub,tempo_api,https://charmhub.io/integrations/tempo_api,,
 alertmanager_remote_configuration,,https://charmhub.io/alertmanager-k8s/libraries/alertmanager_remote_configuration,,,Charmhub,alertmanager_remote_configuration,https://charmhub.io/integrations/alertmanager_remote_configuration,,
 parca_scrape,,https://charmhub.io/parca-k8s/libraries/parca_scrape,,,Charmhub,parca_scrape,https://charmhub.io/integrations/parca_scrape,,
