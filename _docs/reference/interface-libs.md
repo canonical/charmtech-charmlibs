@@ -6,7 +6,7 @@
 This page lists [interface libraries](#charm-libs-interface). The search box supports regular expressions.
 
 ```{eval-rst}
-.. include:: generated/status-key-table.rst
+.. include:: generated/libs-rel-status-key-table.rst
 ```
 
 ```{eval-rst}

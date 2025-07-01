@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import csv
 import pathlib
+import re
 import typing
 from xml.etree import ElementTree
 
@@ -53,8 +54,8 @@ _EMOJIS = {
     'recommended': '✅',
     'dep': '↪️',
     'experimental': '⚗️',
-    'legacy': '🪦',
-    'team': '🚫',
+    'legacy': '🚫',
+    'team': '💬',
     # substrate
     'machine': '🖥️',
     'K8s': '☸️',
@@ -63,11 +64,11 @@ _STATUS_TOOLTIPS = {
     'recommended': 'Recommended for use in new charms today!',
     'dep': 'Dependency of other libs, unlikely to be required directly.',
     'experimental': 'Experimental, use at your own risk!',
-    'legacy': 'Not recommended, there are better alternatives available.',
+    'legacy': 'Deprecated library, not recommended for use in new charms.',
     'team': 'Team internal lib, may not be stable for external use.',
 }
 _KIND_SORTKEYS = {'PyPI': 0, 'git': 1, 'Charmhub': 2, '': 3}
-_STATUS_SORTKEYS = {'recommended': 0, '': 1, 'dep': 2, 'experimental': 3, 'legacy': 4, 'team': 5}
+_STATUS_SORTKEYS = {'recommended': 0, '': 1, 'dep': 2, 'experimental': 3, 'team': 4, 'legacy': 5}
 _FILE_HEADER = """..
     This file was automatically generated.
     It should not be manually edited!
@@ -101,6 +102,10 @@ _KEY_TABLE_HEADER = """.. list-table::
    * -
      - Description
 """
+_KEY_MSG = 'Library status is shown in the left column. See tooltips, or click here for a key.'
+_KEY_DROPDOWN_HEADER = f""".. dropdown:: {_KEY_MSG}
+
+"""
 
 
 class _CSVRow(typing.TypedDict, total=True):
@@ -124,6 +129,13 @@ class _GenCSVRow(_CSVRow, total=True):
     K8s: str
 
 
+class _TableRow(typing.NamedTuple):
+    status: str
+    name: str
+    kind: str
+    description: str
+
+
 def _generate_libs_tables(docs_dir: str | pathlib.Path) -> None:
     ref_dir = pathlib.Path(docs_dir) / 'reference'
     gen_dir = ref_dir / 'generated'
@@ -131,18 +143,25 @@ def _generate_libs_tables(docs_dir: str | pathlib.Path) -> None:
     # interface / relation libs
     with (ref_dir / 'libs-rel-raw.csv').open() as f:
         rel_entries: list[_RelCSVRow] = list(csv.DictReader(f))  # type: ignore
-    rel_table = _get_rel_libs_table(rel_entries)
-    _write_if_needed(path=(gen_dir / 'libs-rel-table.rst'), content=rel_table)
+    _write_if_needed(
+        path=(gen_dir / 'libs-rel-table.rst'),
+        content=_get_rel_libs_table(rel_entries),
+    )
+    _write_if_needed(
+        path=(gen_dir / 'libs-rel-status-key-table.rst'),
+        content=_get_status_key_table_dropdown(rel_entries),
+    )
     # general / non-relation libs
     with (ref_dir / 'libs-non-rel-raw.csv').open() as f:
         non_rel_entries: list[_GenCSVRow] = list(csv.DictReader(f))  # type: ignore
-    non_rel_table = _get_gen_libs_table(non_rel_entries)
-    _write_if_needed(path=(gen_dir / 'libs-non-rel-table.rst'), content=non_rel_table)
-    # status key
-    key_table = _get_status_key_table()
-    msg = ' Library status is shown in the left column. See tooltips, or click here for a key.'
-    content = f'.. dropdown::{msg}\n\n' + '\n'.join('   ' + line for line in key_table.split('\n'))
-    _write_if_needed(path=(gen_dir / 'status-key-table.rst'), content=content)
+    _write_if_needed(
+        path=(gen_dir / 'libs-non-rel-table.rst'),
+        content=_get_gen_libs_table(non_rel_entries),
+    )
+    _write_if_needed(
+        path=(gen_dir / 'libs-non-rel-status-key-table.rst'),
+        content=_get_status_key_table_dropdown(non_rel_entries),
+    )
 
 
 def _write_if_needed(path: pathlib.Path, content: str) -> None:
@@ -161,7 +180,7 @@ def _write_if_needed(path: pathlib.Path, content: str) -> None:
 ##########
 
 
-def _get_rel_libs_table(entries: list[_RelCSVRow]) -> str:
+def _get_rel_libs_table(entries: Iterable[_RelCSVRow]) -> str:
     def key(row: tuple[str, ...]) -> tuple[str, ...]:
         status, _name, _kind, desc = row
         return status, desc
@@ -170,23 +189,30 @@ def _get_rel_libs_table(entries: list[_RelCSVRow]) -> str:
     return _REL_LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
 
 
-def _get_gen_libs_table(entries: list[_GenCSVRow]) -> str:
-    def key(row: tuple[str, ...]) -> tuple[str, ...]:
-        status, _name, kind, desc = row
-        return status, kind, desc
+def _get_gen_libs_table(entries: Iterable[_GenCSVRow]) -> str:
+    def inclusion(row: _CSVRow) -> bool:
+        return row['status'] != 'unlisted'
 
-    rows = [(_status(e), _name(e), _kind(e), _gen_description(e)) for e in entries]
+    def key(row: _TableRow) -> tuple[str, ...]:
+        return row.status, row.kind, row.name, row.description
+
+    rows = [
+        _TableRow(_status(entry), _name(entry), _kind(entry), _gen_description(entry))
+        for entry in filter(inclusion, entries)
+    ]
     return _GEN_LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
 
 
-def _get_status_key_table() -> str:
+def _get_status_key_table_dropdown(entries: Iterable[_CSVRow]) -> str:
+    used_statuses = {entry['status'] for entry in entries}
     rows = [
         (_status({'status': s}), _STATUS_TOOLTIPS[s])  # type: ignore
         for s in _STATUS_SORTKEYS
-        if s in _EMOJIS
+        if s in _EMOJIS and s in used_statuses
     ]
     rows.append(('', 'None of the above.'))
-    return _KEY_TABLE_HEADER + _rst_rows(rows)
+    table = _KEY_TABLE_HEADER + _rst_rows(rows)
+    return _KEY_DROPDOWN_HEADER + _indent_lines(table, level=3)
 
 
 ##########
@@ -203,14 +229,21 @@ def _status(entry: _CSVRow) -> str:
 
 
 def _name(entry: _CSVRow) -> str:
-    main_link = _html_link(entry['name'], entry['url'])
-    extra_links = ', '.join([
-        _html_link(_EMOJIS.get(text, '') + text, url)
-        for text in ('docs', 'src')
-        if (url := entry[text])
-    ])
-    html = f'{main_link} ({extra_links})' if extra_links else main_link
-    return _rst_table_indent(_rst_raw_html(html))
+    name = entry['name'] if entry['kind'] != 'Charmhub' else _charmcraft_namespaced_name(entry)
+    link = _html_link(name, entry['url'])
+    extras = ', '.join(_html_link(s, url) for s in ('docs', 'src') if (url := entry[s]))
+    links = f'{link} <span style="white-space:nowrap;">({extras})</span>' if extras else link
+    html_lines = [_html_hidden_span(name.ljust(64, 'z')), links]
+    return _rst_table_indent(_rst_raw_html('\n'.join(html_lines)))
+
+
+def _charmcraft_namespaced_name(entry: _CSVRow) -> str:
+    lib_name = entry['name']
+    match = re.search(r'charmhub\.io/([^/]+)/', entry['url'])
+    assert match is not None
+    charm = match.group(1)
+    namespace = charm.replace('-', '_')
+    return f'{namespace}.{lib_name}'
 
 
 def _kind(entry: _CSVRow) -> str:
@@ -322,9 +355,9 @@ def _html_hidden_span(text: object) -> str:
 
 
 def _html_link(text: str, url: str) -> str:
-    e = ElementTree.Element('a', attrib={'href': url, 'class': 'no-spellcheck'})
-    e.text = text
-    return ElementTree.tostring(e, encoding='unicode')
+    for char in ('.', '-', '_'):
+        text = text.replace(char, f'{char}<wbr>')
+    return f'<a href="{url}" class="no-spellcheck">{text}</a>'
 
 
 def _html_no_spellcheck_span(text: object) -> str:

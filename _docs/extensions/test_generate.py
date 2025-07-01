@@ -33,8 +33,9 @@ def rst_to_html(rst: str) -> str:
 
 
 def test_status_key_table():
-    rst = generate._get_status_key_table()
-    html_content = rst_to_html(rst)
+    rst = generate._get_status_key_table_dropdown([])
+    dropdown_contents = '\n'.join(rst.split('\n')[1:])
+    html_content = rst_to_html(dropdown_contents)
     table = ElementTree.fromstring(html.unescape(html_content)).find('.//table')
     assert table is not None
 

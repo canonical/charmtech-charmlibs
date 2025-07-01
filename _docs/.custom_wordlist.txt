@@ -15,14 +15,17 @@ implementers
 libs
 monorepo
 namespacing
+OCI
 posix
 reimplemented
 repo
 requirer
+stateful
 subclasses
 subdirectory
 symlink
 symlinks
+templating
 tooltip
 tooltips
 UTF
@@ -32,12 +35,15 @@ yaml
 charmcraft
 charmlib
 charmlibs
+podspec
 PYDEPS
 
 pathlib
 pathops
 ContainerPath
 
+Jinja
+Multus
 PyPI
 
 drwxr

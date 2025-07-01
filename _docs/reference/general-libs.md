@@ -1,12 +1,10 @@
 (general-libs-listing)=
 # General libraries
 
-🚧Under construction!🚧
-
 This page lists [non-interface libraries](#charm-libs-general). The search box supports regular expressions.
 
 ```{eval-rst}
-.. include:: generated/status-key-table.rst
+.. include:: generated/libs-non-rel-status-key-table.rst
 ```
 
 ```{eval-rst}
