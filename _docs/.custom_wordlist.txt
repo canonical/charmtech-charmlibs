@@ -5,6 +5,7 @@ args
 codebase
 databag
 databags
+datasource
 dev
 discoverability
 filesystem
@@ -28,8 +29,10 @@ symlinks
 templating
 tooltip
 tooltips
+TLS
 UTF
 vendored
+webui
 yaml
 
 charmcraft
@@ -42,8 +45,10 @@ pathlib
 pathops
 ContainerPath
 
+GRPC
 Jinja
 Multus
+Nginx
 PyPI
 
 drwxr

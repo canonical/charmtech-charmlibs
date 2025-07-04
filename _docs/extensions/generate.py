@@ -75,22 +75,32 @@ _FILE_HEADER = """..
     Instead, edit the corresponding -raw.csv file and then rebuild the docs.
 
 """
-_LIBS_TABLE_HEADER = """.. list-table::
+_REL_LIBS_TABLE_HEADER = """.. list-table::
    :class: sphinx-datatable
    :widths: 1, 40, 1, 60
    :header-rows: 1
 
    * -
-     - name
-     - kind
-     - description
+     - Library
+     - Kind
+     - Interface
+"""
+_GEN_LIBS_TABLE_HEADER = """.. list-table::
+   :class: sphinx-datatable
+   :widths: 1, 40, 1, 60
+   :header-rows: 1
+
+   * -
+     - Library
+     - Kind
+     - Description
 """
 _KEY_TABLE_HEADER = """.. list-table::
    :widths: 1, 100
    :header-rows: 1
 
    * -
-     - description
+     - Description
 """
 _KEY_MSG = 'Library status is shown in the left column. See tooltips, or click here for a key.'
 _KEY_DROPDOWN_HEADER = f""".. dropdown:: {_KEY_MSG}
@@ -176,7 +186,7 @@ def _get_rel_libs_table(entries: Iterable[_RelCSVRow]) -> str:
         return status, desc
 
     rows = [(_status(e), _name(e), _kind(e), _rel_description(e)) for e in entries]
-    return _LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
+    return _REL_LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
 
 
 def _get_gen_libs_table(entries: Iterable[_GenCSVRow]) -> str:
@@ -190,7 +200,7 @@ def _get_gen_libs_table(entries: Iterable[_GenCSVRow]) -> str:
         _TableRow(_status(entry), _name(entry), _kind(entry), _gen_description(entry))
         for entry in filter(inclusion, entries)
     ]
-    return _LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
+    return _GEN_LIBS_TABLE_HEADER + _rst_rows(sorted(rows, key=key))
 
 
 def _get_status_key_table_dropdown(entries: Iterable[_CSVRow]) -> str:
@@ -264,7 +274,7 @@ def _rel_links(entry: _RelCSVRow) -> str:
     if not (name := entry['rel_name']):
         return ''
     if not (main_url := entry['rel_url_charmhub']):
-        return name
+        return _html_no_spellcheck_span(name)
     main_link = _html_link(name, main_url)
     if not (schema_url := entry['rel_url_schema']):
         return main_link
@@ -348,3 +358,9 @@ def _html_link(text: str, url: str) -> str:
     for char in ('.', '-', '_'):
         text = text.replace(char, f'{char}<wbr>')
     return f'<a href="{url}" class="no-spellcheck">{text}</a>'
+
+
+def _html_no_spellcheck_span(text: object) -> str:
+    e = ElementTree.Element('span', attrib={'class': 'no-spellcheck'})
+    e.text = str(text)
+    return ElementTree.tostring(e, encoding='unicode')
